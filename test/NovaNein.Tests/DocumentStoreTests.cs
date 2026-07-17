@@ -146,7 +146,7 @@ public sealed class DocumentStoreTests : IAsyncLifetime
 	[Fact]
 	public async Task Credit_note_datev_release_is_approved_only_and_idempotently_audited()
 	{
-		var creditNote = await _store.CreateAsync(new(DocumentDirection.Incoming, 50, 80003, SapBusinessDocumentType.PurchaseCreditNote), "A".PadLeft(64, 'A'), "credit-note.pdf", "operator");
+		var creditNote = await _store.CreateAsync(new(DocumentDirection.Incoming, 50, 130, SapBusinessDocumentType.PurchaseCreditNote), "A".PadLeft(64, 'A'), "credit-note.pdf", "operator");
 		Assert.False(await _store.RecordCreditNoteDatevReleaseAsync(creditNote.Id, "vor Prüfung", "reviewer"));
 		await _store.RecordValidationAsync(creditNote.Id, new(ReviewSignal.Green, []), "engine");
 
@@ -155,7 +155,7 @@ public sealed class DocumentStoreTests : IAsyncLifetime
 		Assert.True(await _store.HasCreditNoteDatevReleaseAsync(creditNote.Id));
 		Assert.Single((await _store.EventsAsync(creditNote.Id)).Where(x => x.Kind == "CreditNoteDatevReleaseApproved"));
 
-		var invoice = await _store.CreateAsync(new(DocumentDirection.Incoming, 51, 900500, SapBusinessDocumentType.PurchaseInvoice), "B".PadLeft(64, 'B'), "invoice.pdf", "operator");
+		var invoice = await _store.CreateAsync(new(DocumentDirection.Incoming, 51, 131, SapBusinessDocumentType.PurchaseInvoice), "B".PadLeft(64, 'B'), "invoice.pdf", "operator");
 		await _store.RecordValidationAsync(invoice.Id, new(ReviewSignal.Green, []), "engine");
 		Assert.False(await _store.RecordCreditNoteDatevReleaseAsync(invoice.Id, "falscher Belegtyp", "reviewer"));
 	}

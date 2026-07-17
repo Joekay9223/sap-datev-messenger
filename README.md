@@ -11,6 +11,7 @@ The source and solution retain the existing NovaNein technical identifiers for c
 - PDF intake with hash-based deduplication and audit events
 - Read-only SAP Business One adapters with separately gated write paths
 - Human review and approval workflows for invoice proposals
+- Optional fully automated handling of forwarded, green SAP-matched outgoing invoices through attachments, cockpit linking and DATEV transfer
 - OpenAI document interpretation with deterministic local reconciliation
 - DATEV v6 package generation and safety validation
 - Optional Windows client, mTLS, backup, and transfer-bridge components

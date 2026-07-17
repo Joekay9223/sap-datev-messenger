@@ -1289,7 +1289,7 @@ public class Program
 				}
 				catch { bridgeStatus = "heartbeat-missing-or-stale"; }
 			}
-			bool rovoConfigured = !transferAgentEnabled || (string.Equals(transferMode, "LocalBridge", StringComparison.OrdinalIgnoreCase) && bridgeHeartbeatFresh);
+			bool bridgeConfigured = !transferAgentEnabled || (string.Equals(transferMode, "LocalBridge", StringComparison.OrdinalIgnoreCase) && bridgeHeartbeatFresh);
 			string paperlessBaseUrl = configuration["Integrations:Paperless:BaseUrl"];
 			bool paperlessEnabled = configuration.GetValue("Integrations:Paperless:Enabled", defaultValue: false);
 			string paperlessCredentialTarget = configuration["Integrations:Paperless:CredentialTarget"] ?? "NovaNein/Paperless";
@@ -1315,7 +1315,7 @@ public class Program
 			string attachmentStatus = (attachmentProcessor.AutoAttachEnabled() ? "enabled" : "disabled");
 			return Results.Ok(new
 			{
-				status = ((sapStatus == "ok" && openAiConfigured && storageReady && datevConfigured && datevXsdsConfigured && bttnextConfigured && backupConfigured && rovoConfigured && paperlessConfigured) ? "ready" : "degraded"),
+				status = ((sapStatus == "ok" && openAiConfigured && storageReady && datevConfigured && datevXsdsConfigured && bttnextConfigured && backupConfigured && bridgeConfigured && paperlessConfigured) ? "ready" : "degraded"),
 				sap = sapStatus,
 				openAi = (openAiConfigured ? "configured" : "not-configured"),
 				storage = (storageReady ? "ok" : "error"),
@@ -1324,7 +1324,7 @@ public class Program
 				bttnext = (bttnextConfigured ? "configured" : "not-configured-or-unreachable"),
 				sapAttachment = attachmentStatus,
 				backup = (backupConfigured ? "configured" : "not-configured-or-unreachable"),
-				datevFileServer = ((!rovoConfigured) ? "enabled-but-not-ready" : (transferAgentEnabled ? "configured" : "disabled")),
+				bridgeStatus = ((!bridgeConfigured) ? "enabled-but-not-ready" : (transferAgentEnabled ? "configured" : "disabled")),
 				datevBridge = bridgeStatus,
 				paperless = (!paperlessEnabled ? "disabled" : (paperlessConfigured ? "configured" : "not-configured-or-unsafe"))
 			});

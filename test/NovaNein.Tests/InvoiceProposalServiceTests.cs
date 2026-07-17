@@ -10,7 +10,7 @@ public sealed class InvoiceProposalServiceTests
 		var facts = new ExtractedInvoiceFacts(
 			"991930407",
 			"Example Supplier GmbH",
-			"DE257224517",
+			"DE000000001",
 			164.24m,
 			"EUR",
 			new DateOnly(2026, 7, 16),
@@ -45,9 +45,9 @@ public sealed class InvoiceProposalServiceTests
 	[InlineData("Inventory item, 25 kg", true)]
 	[InlineData("Bedruckte Standbodenbeutel 500 g", true)]
 	[InlineData("Etiketten für Verkaufsverpackung", true)]
-	[InlineData("Raw material, 25 kg", true)]
-	[InlineData("Packaging film, 25 kg", true)]
-	[InlineData("Inventory item, 25 kg; Commodity code: TEST-CODE", true)]
+	[InlineData("Rice flour, 25 kg", true)]
+	[InlineData("Organic rice flour, 25 kg", true)]
+	[InlineData("Rice flour, 25 kg", true)]
 	[InlineData("Hautschutzcreme in Kartusche", false)]
 	[InlineData("Versandkosten per Paketdienst", false)]
 	public void Only_inventory_managed_goods_and_packaging_require_item_posting(string description, bool expected)
@@ -60,11 +60,11 @@ public sealed class InvoiceProposalServiceTests
 	{
 		var proposal = new InvoiceProposal(
 			Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), 1, "incoming", MailSourceStatuses.ProposalReady, "green",
-			"invoice", "690074655", "Ebro Ingredients", "72223", null, null, null,
+			"invoice", "690074655", "Example Supplier", "72223", null, null, null,
 			new DateOnly(2026, 7, 13), null, null, 100m, 0m, 100m, "EUR", false, false, false,
-			"Ebro invoice", "sha", DateTimeOffset.UtcNow, DateTimeOffset.UtcNow, null, null, null,
+			"Example invoice", "sha", DateTimeOffset.UtcNow, DateTimeOffset.UtcNow, null, null, null,
 			["Physische Position erkannt, aber keine bestandsgeführte Ware; Verarbeitung als einfache Kostenrechnung ist zulässig."],
-			[new InvoiceProposalLine(1, "Inventory item, 25 kg; Commodity code: TEST-CODE", 100m, 0m, 0m, "3320", "V0", "SAP-Historie", 0.9m, false)]);
+			[new InvoiceProposalLine(1, "Rice flour, 25 kg", 100m, 0m, 0m, "3320", "V0", "SAP-Historie", 0.9m, false)]);
 
 		var classified = InvoiceProposalService.ReclassifyStoredInventoryProposal(proposal);
 
@@ -82,7 +82,7 @@ public sealed class InvoiceProposalServiceTests
 		var facts = new ExtractedInvoiceFacts(
 			"26070189",
 			"Example Logistics GmbH",
-			"DE222432970",
+			"DE000000002",
 			327.25m,
 			"EUR",
 			new DateOnly(2026, 7, 10),
@@ -140,7 +140,7 @@ public sealed class InvoiceProposalServiceTests
 			"900003", "Example Customer GmbH", "DE999", 120m, "EUR", new DateOnly(2026, 7, 17),
 			true, false, false, "Ausgangsrechnung",
 			NetAmount: 100m, TaxAmount: 20m,
-			IssuerName: "Example Company GmbH", IssuerVatId: "DE000000000",
+			IssuerName: "Example Company GmbH & Co. KG", IssuerVatId: "DE000000000",
 			RecipientName: "Example Customer GmbH", RecipientVatId: "DE999");
 		var findings = new List<string>();
 
@@ -152,7 +152,7 @@ public sealed class InvoiceProposalServiceTests
 	private static SapAccountingDocument OutgoingAccounting()
 	{
 		var snapshot = new SapDocumentSnapshot(
-			SapDocumentKind.Invoice, 4711, 900003, "C100", "Example Customer GmbH", "900003",
+			SapDocumentKind.Invoice, 4711, 900003, "K100", "Example Customer GmbH", "900003",
 			new DateOnly(2026, 7, 17), 119m, "EUR", null, TransId: 9001);
 		return new SapAccountingDocument(
 			snapshot,
@@ -162,10 +162,10 @@ public sealed class InvoiceProposalServiceTests
 			"Kundenweg 1",
 			"20095",
 			"Hamburg",
-			"Example Company GmbH",
+			"Example Company GmbH & Co. KG",
 			"DE000000000",
 			"Example Street 1",
-			"12345",
+			"00000",
 			"Example City",
 			[new SapDocumentLine(0, "Ware", 1m, 100m, 19m, "A2", 19m, "8400", "EUR")],
 			[new SapTaxBreakdown(0, "A2", 19m, 100m, 19m, "EUR")],
