@@ -8,11 +8,11 @@ public sealed class WorkItemOrderingTests
     public void Sorts_sap_numbers_ascending()
     {
         var sorted = WorkItemOrdering.Apply(
-            [Item(190003, "RE-9", new DateOnly(2026, 7, 3)), Item(900003, "RE-7", new DateOnly(2026, 7, 1))],
+            [Item(900010, "RE-9", new DateOnly(2026, 7, 3)), Item(900003, "RE-7", new DateOnly(2026, 7, 1))],
             "docNum",
             "asc").ToArray();
 
-        Assert.Equal([900003, 190003], sorted.Select(item => item.DocNum));
+        Assert.Equal([900003, 900010], sorted.Select(item => item.DocNum));
     }
 
     [Fact]

@@ -13,7 +13,7 @@ namespace NovaNein.Server;
 
 public sealed class DatevPackageProcessor(DocumentStore documents, TransferEvidenceStore evidence, DatevTransferRequestStore transferRequests, ISapServiceLayerClient sap, IConfiguration configuration, ILogger<DatevPackageProcessor> logger)
 {
-	internal const string DefaultSupplierZip = "21376";
+	internal const string DefaultSupplierZip = "12345";
 	private readonly DatevPackageGenerator _generator = new DatevPackageGenerator();
 
 	public async Task ProcessAsync(DocumentJob job, CancellationToken cancellationToken = default(CancellationToken))

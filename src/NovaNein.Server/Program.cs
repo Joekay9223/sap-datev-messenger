@@ -1324,7 +1324,7 @@ public class Program
 				bttnext = (bttnextConfigured ? "configured" : "not-configured-or-unreachable"),
 				sapAttachment = attachmentStatus,
 				backup = (backupConfigured ? "configured" : "not-configured-or-unreachable"),
-				datev-file-server = ((!rovoConfigured) ? "enabled-but-not-ready" : (transferAgentEnabled ? "configured" : "disabled")),
+				datevFileServer = ((!rovoConfigured) ? "enabled-but-not-ready" : (transferAgentEnabled ? "configured" : "disabled")),
 				datevBridge = bridgeStatus,
 				paperless = (!paperlessEnabled ? "disabled" : (paperlessConfigured ? "configured" : "not-configured-or-unsafe"))
 			});

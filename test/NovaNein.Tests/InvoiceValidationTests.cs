@@ -15,9 +15,9 @@ public class InvoiceValidationTests
     }
 
     [Theory]
-    [InlineData("910809", "RE-EXAMPLE-009")]
+	[InlineData("910809", "RE-910809")]
     [InlineData("910809", "RG-910809")]
-    [InlineData("910809", "INV / EXAMPLE-009")]
+	[InlineData("910809", "INV / 910809")]
     [InlineData("910809", "Rechnung Nr. 910809")]
     [InlineData("RE-00017", "17")]
     public void Treats_common_invoice_prefixes_as_equivalent(string sapNumber, string pdfNumber)
@@ -30,7 +30,7 @@ public class InvoiceValidationTests
     }
 
     [Theory]
-    [InlineData("R-EXAMPLE-001", "R-26-13S40")]
+	[InlineData("R-26-13540", "R-26-13S40")]
     [InlineData("INV-2026-1008", "INV-2O26-1O08")]
     public void Treats_limited_common_ocr_character_confusions_as_equivalent(string sapNumber, string pdfNumber)
     {
@@ -42,7 +42,7 @@ public class InvoiceValidationTests
     }
 
     [Theory]
-    [InlineData("910809", "RE-EXAMPLE-008")]
+	[InlineData("910809", "RE-910808")]
     [InlineData("910809", "RE2026-910809")]
     [InlineData("INV261005", "INV261006")]
     public void Keeps_different_invoice_numbers_red(string sapNumber, string pdfNumber)

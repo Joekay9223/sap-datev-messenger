@@ -41,12 +41,12 @@ public sealed class InvoiceProposalServiceTests
 	}
 
 	[Theory]
-	[InlineData("Bio Feigen getrocknet, 10 kg", true)]
+	[InlineData("Raw material, 10 kg", true)]
 	[InlineData("Inventory item, 25 kg", true)]
 	[InlineData("Bedruckte Standbodenbeutel 500 g", true)]
 	[InlineData("Etiketten für Verkaufsverpackung", true)]
-	[InlineData("Bio Reismehl, 25 kg", true)]
-	[InlineData("Organic rice flour, 25 kg", true)]
+	[InlineData("Raw material, 25 kg", true)]
+	[InlineData("Packaging film, 25 kg", true)]
 	[InlineData("Inventory item, 25 kg; Commodity code: TEST-CODE", true)]
 	[InlineData("Hautschutzcreme in Kartusche", false)]
 	[InlineData("Versandkosten per Paketdienst", false)]

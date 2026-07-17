@@ -9,7 +9,7 @@ public sealed class PaperlessClientTests
     [InlineData("10.20.30.40")]
     [InlineData("172.16.0.1")]
     [InlineData("172.31.255.254")]
-    [InlineData("192.0.2.11")]
+    [InlineData("10.0.0.1")]
     public void PrivateHttpHost_AcceptsRfc1918AndLoopback(string host)
     {
         Assert.True(PaperlessClient.IsPrivateHttpHost(host));

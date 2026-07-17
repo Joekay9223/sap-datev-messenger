@@ -82,7 +82,7 @@ public sealed class DatevPackageGeneratorTests : IDisposable
             "Eingangsrechnung"));
 
         Assert.Contains("generatingSystem=\"Novaline Workflow\"", xml);
-        Assert.Contains("<clientName>Example Company GmbH &amp; Co. KG</clientName>", xml);
+        Assert.Contains("<clientName>Example Company GmbH</clientName>", xml);
     }
 
     [Fact]
