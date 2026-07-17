@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net48</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+    <Prefer32Bit>false</Prefer32Bit>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>latest</LangVersion>
+    <AssemblyName>NovaNein.SapAddonInstaller</AssemblyName>
+    <RootNamespace>NovaNein.SapAddonInstaller</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <PayloadDirectory Condition="'$(PayloadDirectory)' == ''">$(MSBuildThisFileDirectory)..\NovaNein.SapAddonHost\bin\$(Configuration)\net48</PayloadDirectory>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NovaNein.SapAddonHost\NovaNein.SapAddonHost.csproj" ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="$(PayloadDirectory)\NovaNein.SapAddon.dll" LogicalName="NovaNein.Payload.NovaNein.SapAddon.dll" />
+    <EmbeddedResource Include="$(PayloadDirectory)\NovaNein.SapAddonHost.exe" LogicalName="NovaNein.Payload.NovaNein.SapAddonHost.exe" />
+    <EmbeddedResource Include="$(PayloadDirectory)\NovaNein.SapAddonHost.exe.config" LogicalName="NovaNein.Payload.NovaNein.SapAddonHost.exe.config" />
+  </ItemGroup>
+
+  <Target Name="ValidatePayload" BeforeTargets="CoreCompile">
+    <Error Condition="'$(PayloadDirectory)' == ''" Text="PayloadDirectory muss auf die veröffentlichte SAP-Add-on-Nutzlast zeigen." />
+    <Error Condition="!Exists('$(PayloadDirectory)\NovaNein.SapAddon.dll')" Text="NovaNein.SapAddon.dll fehlt in PayloadDirectory." />
+    <Error Condition="!Exists('$(PayloadDirectory)\NovaNein.SapAddonHost.exe')" Text="NovaNein.SapAddonHost.exe fehlt in PayloadDirectory." />
+    <Error Condition="!Exists('$(PayloadDirectory)\NovaNein.SapAddonHost.exe.config')" Text="NovaNein.SapAddonHost.exe.config fehlt in PayloadDirectory." />
+  </Target>
+</Project>

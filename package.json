@@ -1,0 +1,13 @@
+{
+  "name": "novaline-archiv-replacement",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Sicheres Grundgerüst für den Nachbau des Novaline-Archiv- und DATEV-Abgleichsprozesses.",
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "sap": {
+    "mode": "read-only",
+    "endpoint": "https://sap.example.invalid"
+  },
+  "datev": {
+    "watchfolder": "/path/to/datev-watchfolder",
+    "allowDirectTransfer": false,
+    "requireLocalXsdValidation": true
+  },
+  "audit": {
+    "enabled": true
+  }
+}

@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="csrf-token" content="">
+  <title>NovaNein · Benutzer und Rechte</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css?v=20260716-users1">
+  <link rel="stylesheet" href="/admin-users.css?v=20260716-users1">
+</head>
+<body>
+<div class="app-shell">
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark"><span></span><span></span><span></span></span><span class="brand-name">NovaNein</span><span class="brand-divider"></span><span class="brand-section">Benutzer und Rechte</span></div>
+    <nav class="topbar-nav" aria-label="Hauptnavigation">
+      <a class="nav-button" href="/index.html"><span>Beleg-Cockpit</span><span class="nav-count" data-nav-count="work-items" aria-label="Offene Belege">–</span></a>
+      <a class="nav-button" href="/booking.html"><span>Buchungsvorschläge</span><span class="nav-count" data-nav-count="invoice-proposals" aria-label="Offene Buchungsvorschläge">–</span></a>
+      <a class="nav-button" href="/statistics.html">Statistiken</a>
+      <a class="nav-button" href="/history.html">Historie</a>
+      <a class="nav-button" href="/paperless.html">Paperless</a>
+    </nav>
+    <div class="topbar-actions"></div>
+  </header>
+  <main>
+    <section class="users-heading">
+      <div><p class="eyebrow"><span class="eyebrow-rule"></span>Zugriff und Nachvollziehbarkeit</p><h1>Benutzer. Rechte. Verantwortung.</h1><p>Jeder Mitarbeiter erhält einen persönlichen Zugang. Rollen liefern eine sinnvolle Voreinstellung; einzelne Berechtigungen bleiben danach gezielt anpassbar.</p></div>
+      <button class="button button-primary" id="create-user" type="button">Neuen Benutzer anlegen</button>
+    </section>
+
+    <div id="users-feedback" class="users-feedback" role="alert" hidden></div>
+    <section class="user-metrics" aria-label="Benutzerübersicht">
+      <div><span>Benutzer</span><strong id="metric-users">–</strong></div>
+      <div><span>Aktiv</span><strong id="metric-active">–</strong></div>
+      <div><span>Erstzugang offen</span><strong id="metric-password">–</strong></div>
+      <div><span>Gesperrt</span><strong id="metric-locked">–</strong></div>
+    </section>
+
+    <section class="users-panel">
+      <header class="section-header"><div><p class="section-kicker">Konten</p><h2>Persönliche Zugänge</h2></div><span class="users-updated" id="users-updated">Wird geladen …</span></header>
+      <div class="table-wrap">
+        <table class="users-table">
+          <thead><tr><th>Benutzer</th><th>Rolle</th><th>Berechtigungen</th><th>Letzte Anmeldung</th><th>Status</th><th>Aktion</th></tr></thead>
+          <tbody id="users-body"></tbody>
+        </table>
+      </div>
+      <div class="mini-empty" id="users-empty" hidden>Noch keine Benutzer vorhanden.</div>
+    </section>
+
+    <section class="users-panel audit-panel">
+      <header class="section-header"><div><p class="section-kicker">Protokoll</p><h2>Anmeldungen und Benutzeränderungen</h2></div><button class="button button-outline button-small" id="refresh-audit" type="button">Aktualisieren</button></header>
+      <div class="table-wrap">
+        <table class="audit-table">
+          <thead><tr><th>Zeitpunkt</th><th>Benutzer</th><th>Aktion</th><th>Details</th><th>Quelle</th></tr></thead>
+          <tbody id="audit-body"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <footer class="app-footer"><span>NovaNein · Benutzerverwaltung</span><span>Änderungen werden revisionsnah protokolliert.</span></footer>
+</div>
+
+<dialog id="user-dialog" class="user-dialog">
+  <form method="dialog" id="user-form" class="user-dialog-card">
+    <header><div><p class="section-kicker">Benutzerkonto</p><h2 id="user-dialog-title">Benutzer anlegen</h2><p>Rolle auswählen und anschließend bei Bedarf einzelne Rechte anpassen.</p></div><button class="icon-button dialog-close" value="cancel" aria-label="Schließen">×</button></header>
+    <input type="hidden" id="user-id">
+    <div class="user-form-grid">
+      <label><span>Anzeigename</span><input id="user-display-name" autocomplete="name" required></label>
+      <label><span>Benutzername</span><input id="user-name-input" autocomplete="username" required></label>
+      <label class="wide"><span>E-Mail-Adresse</span><input id="user-email" type="email" autocomplete="email" required></label>
+      <label><span>Rolle</span><select id="user-role-input"></select></label>
+      <label class="status-toggle"><span>Konto aktiv</span><input id="user-active" type="checkbox" checked></label>
+    </div>
+    <div class="permissions-heading"><div><strong>Berechtigungen</strong><span>Die Rolle setzt eine Voreinstellung. Änderungen gelten sofort nach der nächsten Anmeldung.</span></div><button class="text-button" id="reset-role-permissions" type="button">Rollenstandard übernehmen</button></div>
+    <div class="permission-grid" id="permission-grid"></div>
+    <div id="user-form-feedback" class="users-feedback" role="alert" hidden></div>
+    <footer class="dialog-actions"><button class="button button-outline" value="cancel">Abbrechen</button><button class="button button-primary" id="save-user" value="default">Speichern</button></footer>
+  </form>
+</dialog>
+
+<dialog id="credential-dialog" class="credential-dialog">
+  <section class="credential-card">
+    <p class="section-kicker">Nur einmal sichtbar</p><h2>Zugangsdaten erstellt</h2>
+    <p>Das temporäre Kennwort wird beim ersten Login durch ein persönliches Kennwort ersetzt.</p>
+    <dl><div><dt>Benutzername</dt><dd id="credential-user">–</dd></div><div><dt>Temporäres Kennwort</dt><dd id="credential-password">–</dd></div></dl>
+    <div class="dialog-actions"><button class="button button-outline" id="copy-credentials" type="button">Zugangsdaten kopieren</button><button class="button button-primary" id="close-credentials" type="button">Verstanden</button></div>
+  </section>
+</dialog>
+
+<script src="/navigation.js?v=20260716-users1" defer></script>
+<script src="/admin-users.js?v=20260716-users1" defer></script>
+</body>
+</html>

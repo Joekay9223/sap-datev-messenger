@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NovaNein · Historie</title>
+  <link rel="stylesheet" href="/styles.css?v=20260716-users1">
+  <link rel="stylesheet" href="/history.css?v=20260716-navbuttons3">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span class="brand-name">NovaNein</span><span class="brand-divider" aria-hidden="true"></span><span class="brand-section">Historie</span></div>
+      <nav class="topbar-nav" aria-label="Hauptnavigation">
+        <a class="nav-button" href="/index.html"><span>Beleg-Cockpit</span><span class="nav-count" data-nav-count="work-items" aria-label="Offene Belege">–</span></a>
+        <a class="nav-button" href="/booking.html"><span>Buchungsvorschläge</span><span class="nav-count" data-nav-count="invoice-proposals" aria-label="Offene Buchungsvorschläge">–</span></a>
+        <a class="nav-button" href="/statistics.html">Statistiken</a>
+        <a class="nav-button" href="/history.html" aria-current="page">Historie</a>
+        <a class="nav-button" href="/paperless.html">Paperless</a>
+      </nav>
+      <div class="topbar-actions">
+        <span class="connection-indicator" id="history-connection" data-state="loading"><span class="status-dot" aria-hidden="true"></span><span id="history-connection-label">Wird geladen …</span></span>
+      </div>
+    </header>
+    <main>
+      <section class="history-heading" aria-labelledby="history-title">
+        <div>
+          <p class="eyebrow"><span class="eyebrow-rule"></span>Nachvollziehbar</p>
+          <h1 id="history-title">Letzte 50 Aktionen.</h1>
+          <p>Uploads, Prüfungen, Freigaben sowie DATEV-Schritte – chronologisch mit Beleg und Bearbeiter.</p>
+        </div>
+        <div class="history-heading-actions">
+          <span id="history-updated">Noch nicht aktualisiert</span>
+          <button class="button button-outline button-small" id="history-refresh" type="button">Aktualisieren</button>
+        </div>
+      </section>
+      <section class="history-panel" aria-label="Aktionshistorie">
+        <header class="history-panel-header"><div><p class="section-kicker">Aktivitäten</p><h2>Bearbeitete Belege</h2></div><span class="history-count" id="history-count">0</span></header>
+        <div class="history-feedback" id="history-feedback" role="alert" hidden></div>
+        <div class="table-wrap">
+          <table class="history-table">
+            <thead><tr><th>Zeitpunkt</th><th>Beleg</th><th>Aktion</th><th>Details</th><th>Bearbeitet von</th><th>Status</th></tr></thead>
+            <tbody id="history-body"></tbody>
+          </table>
+        </div>
+        <div class="history-empty" id="history-empty" hidden>Noch keine Aktionen vorhanden.</div>
+      </section>
+    </main>
+    <footer class="app-footer"><span>NovaNein · geschützter Arbeitsplatz</span><span>Die Historie ist schreibgeschützt.</span></footer>
+  </div>
+  <script src="/navigation.js?v=20260716-users1" defer></script>
+  <script src="/history.js?v=20260716-navbuttons3" defer></script>
+</body>
+</html>

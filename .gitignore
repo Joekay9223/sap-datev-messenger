@@ -1,0 +1,35 @@
+node_modules/
+coverage/
+.playwright-cli/
+.playwright-mcp/
+output/
+.env
+.env.*
+!.env.example
+*.log
+.DS_Store
+
+# .NET-/Visual-Studio-Ausgaben
+.vs/
+*.user
+*.suo
+**/bin/
+**/obj/
+**/TestResults/
+
+# Lokale Laufzeitdaten und erzeugte Pakete
+*.db
+*.db-shm
+*.db-wal
+artifacts/
+client-packages/
+provisioning/
+publish-*.zip
+**/data/documents/
+**/data/packages/
+*.pfx
+*.p12
+
+# Lokale Diagnosehelfer
+.find-*.ps1
+tmp/

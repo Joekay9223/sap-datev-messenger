@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102b36">
+  <title>NovaNein · Statistiken</title>
+  <link rel="icon" href="/favicon.svg?v=20260716-navbuttons3" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css?v=20260716-users1">
+  <link rel="stylesheet" href="/statistics.css?v=20260717-statistics1">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Zum Statistikbereich springen</a>
+  <div class="app-shell">
+    <header class="topbar">
+      <div class="brand" aria-label="NovaNein Statistiken">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="brand-name">NovaNein</span>
+        <span class="brand-divider" aria-hidden="true"></span>
+        <span class="brand-section">Statistiken</span>
+      </div>
+      <nav class="topbar-nav" aria-label="Hauptnavigation">
+        <a class="nav-button" href="/index.html"><span>Beleg-Cockpit</span><span class="nav-count" data-nav-count="work-items" aria-label="Offene Belege">–</span></a>
+        <a class="nav-button" href="/booking.html"><span>Buchungsvorschläge</span><span class="nav-count" data-nav-count="invoice-proposals" aria-label="Offene Buchungsvorschläge">–</span></a>
+        <a class="nav-button" href="/statistics.html" aria-current="page">Statistiken</a>
+        <a class="nav-button" href="/history.html">Historie</a>
+        <a class="nav-button" href="/paperless.html">Paperless</a>
+      </nav>
+      <div class="topbar-actions"><button class="text-button" id="logout">Abmelden</button></div>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <section class="intro-row" aria-labelledby="page-title">
+        <div class="intro-copy">
+          <p class="eyebrow"><span class="eyebrow-rule"></span>Kennzahlen · live</p>
+          <h1 id="page-title">Upload- und Umsatzstatistiken.</h1>
+          <p class="intro-text">PDF-Uploads aus NovaNein und Ausgangsbelege aus SAP – jeweils nach Anlagedatum.</p>
+        </div>
+        <div class="next-action statistics-period-summary">
+          <div class="next-action-kicker">Ausgewählter Zeitraum</div>
+          <strong id="selected-period-label">Heute</strong>
+          <span id="selected-period-range">Zeitraum wird geladen …</span>
+        </div>
+      </section>
+
+      <nav class="statistics-tabs" role="tablist" aria-label="Statistik auswählen">
+        <button id="uploads-tab" type="button" role="tab" aria-selected="true" aria-controls="statistics-content" data-view="uploads">Uploadstatistik</button>
+        <button id="revenue-tab" type="button" role="tab" aria-selected="false" aria-controls="statistics-content" data-view="revenue">Umsatzstatistik</button>
+      </nav>
+
+      <section class="period-toolbar" aria-labelledby="period-title">
+        <div><p class="section-kicker">Zeitraum</p><h2 id="period-title">Auswertung auswählen</h2></div>
+        <div class="period-buttons" id="period-buttons" role="group" aria-label="Auswertungszeitraum"></div>
+      </section>
+
+      <section id="statistics-content" aria-live="polite">
+        <div class="metric-strip statistics-metrics" id="statistics-metrics">
+          <div class="metric"><span class="metric-label">Wird geladen</span><strong>–</strong><span class="metric-hint">Aktuelle Daten werden gelesen</span></div>
+        </div>
+
+        <div class="statistics-grid">
+          <section class="statistics-panel" aria-labelledby="detail-title">
+            <header class="section-header"><div><p class="section-kicker" id="detail-kicker">Details</p><h2 id="detail-title">Auswertung</h2></div></header>
+            <div id="statistics-detail" class="statistics-detail"><div class="loading-state"><span class="spinner" aria-hidden="true"></span><span>Statistik wird geladen …</span></div></div>
+          </section>
+          <section class="statistics-panel" aria-labelledby="comparison-title">
+            <header class="section-header"><div><p class="section-kicker">Direkter Vergleich</p><h2 id="comparison-title">Alle Zeiträume</h2></div></header>
+            <div class="table-wrap"><table class="statistics-table"><thead id="comparison-head"></thead><tbody id="comparison-body"></tbody></table></div>
+          </section>
+        </div>
+        <div class="statistics-error" id="statistics-error" role="alert" hidden></div>
+      </section>
+    </main>
+
+    <footer class="app-footer"><span>NovaNein · Statistiken</span><span id="live-state">Stand wird geladen</span></footer>
+  </div>
+  <script src="/navigation.js?v=20260716-users1" defer></script>
+  <script src="/statistics.js?v=20260717-statistics1" defer></script>
+</body>
+</html>

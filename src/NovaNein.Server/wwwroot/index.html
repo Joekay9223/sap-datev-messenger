@@ -1,0 +1,292 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102b36">
+  <meta name="csrf-token" content="">
+  <title>NovaNein · Beleg-Cockpit</title>
+  <link rel="icon" href="/favicon.svg?v=20260716-navbuttons3" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css?v=20260716-users1">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Zum Arbeitsbereich springen</a>
+  <div class="app-shell" id="app-shell">
+    <header class="topbar">
+      <div class="brand" aria-label="NovaNein Beleg-Cockpit">
+        <span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span>
+        <span class="brand-name">NovaNein</span>
+        <span class="brand-divider" aria-hidden="true"></span>
+        <span class="brand-section">Beleg-Cockpit</span>
+      </div>
+      <nav class="topbar-nav" aria-label="Hauptnavigation">
+        <a class="nav-button" href="/index.html" aria-current="page"><span>Beleg-Cockpit</span><span class="nav-count" data-nav-count="work-items" aria-label="Offene Belege">–</span></a>
+        <a class="nav-button" href="/booking.html"><span>Buchungsvorschläge</span><span class="nav-count" data-nav-count="invoice-proposals" aria-label="Offene Buchungsvorschläge">–</span></a>
+        <a class="nav-button" href="/statistics.html">Statistiken</a>
+        <a class="nav-button" href="/history.html">Historie</a>
+        <a class="nav-button" href="/paperless.html">Paperless</a>
+      </nav>
+      <div class="topbar-actions">
+        <span class="connection-indicator" id="connection-indicator" data-state="loading">
+          <span class="status-dot" aria-hidden="true"></span>
+          <span id="connection-label">Verbindung wird geprüft …</span>
+        </span>
+        <button class="icon-button" id="refresh-button" type="button" title="Arbeitsliste aktualisieren" aria-label="Arbeitsliste aktualisieren">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11a8.1 8.1 0 0 0-14.6-4.8L3 9m0 0V4m0 5h5M4 13a8.1 8.1 0 0 0 14.6 4.8L21 15m0 0v5m0-5h-5"/></svg>
+        </button>
+        <button class="user-menu" id="user-menu" type="button" aria-label="Benutzermenü öffnen" aria-expanded="false">
+          <span class="avatar" id="user-avatar">?</span>
+          <span class="user-menu-copy"><strong id="user-name">Arbeitsplatz</strong><small id="user-role">mTLS-Sitzung</small></span>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="user-popover" id="user-popover" hidden>
+          <p class="popover-label">Angemeldet als</p>
+          <strong id="popover-user">Arbeitsplatz</strong>
+          <span id="popover-role">mTLS-Sitzung</span>
+          <button class="text-button" id="session-help" type="button">Sitzung prüfen</button>
+          <button class="text-button" id="logout-button" type="button">Abmelden</button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main-content" tabindex="-1">
+      <section class="intro-row" aria-labelledby="page-title">
+        <div class="intro-copy">
+          <p class="eyebrow"><span class="eyebrow-rule"></span>Arbeitsübersicht · live</p>
+          <h1 id="page-title">Belege im Blick.</h1>
+          <p class="intro-text">Hier sehen Sie, welche PDF als Nächstes gebraucht wird und welcher Schritt bereits geprüft ist.</p>
+          <div class="last-sync" id="last-sync">Noch keine Aktualisierung</div>
+        </div>
+        <div class="next-action" id="next-action-panel" aria-live="polite">
+          <div class="next-action-kicker"><span class="pulse-ring" aria-hidden="true"></span>Nächster sinnvoller Schritt</div>
+          <strong id="next-action-title">Arbeitsliste wird geladen …</strong>
+          <span id="next-action-detail">Einen Augenblick bitte.</span>
+          <button class="button button-light button-small" id="next-action-button" type="button" hidden>Jetzt erledigen <span aria-hidden="true">→</span></button>
+        </div>
+      </section>
+
+      <section class="metric-strip" aria-label="Zusammenfassung">
+        <button class="metric metric-attention" type="button" data-filter="missing" aria-pressed="false" aria-label="Belege ohne PDF anzeigen">
+          <span class="metric-label">PDF fehlt</span><strong id="metric-missing">–</strong><span class="metric-hint">Belege warten auf eine Datei</span>
+        </button>
+        <button class="metric" type="button" data-filter="review" aria-pressed="false" aria-label="Fachliche Abweichungen anzeigen">
+          <span class="metric-label">Prüfung nötig</span><strong id="metric-review">–</strong><span class="metric-hint">Fachliche Abweichungen</span>
+        </button>
+        <button class="metric" type="button" data-filter="ready" aria-pressed="false" aria-label="Bereite Pakete anzeigen">
+          <span class="metric-label">Bereit für DATEV</span><strong id="metric-ready">–</strong><span class="metric-hint">Noch nicht übertragen</span>
+        </button>
+        <button class="metric metric-error" type="button" data-filter="error" aria-pressed="false" aria-label="Technische Verarbeitungsfehler anzeigen">
+          <span class="metric-label">Handlung erforderlich</span><strong id="metric-error">–</strong><span class="metric-hint">Technische Verarbeitungsfehler</span>
+        </button>
+      </section>
+
+      <div class="notice-stack" id="notice-stack" aria-live="polite"></div>
+
+      <section class="workspace-grid" aria-label="Beleg-Arbeitsbereich">
+        <section class="worklist-panel" aria-labelledby="worklist-title">
+          <header class="section-header">
+            <div>
+              <p class="section-kicker">Aufgaben</p>
+              <h2 id="worklist-title">Arbeitsliste</h2>
+            </div>
+            <div class="section-tools">
+              <label class="search-field" for="worklist-search">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m16 16 5 5"/></svg>
+                <span class="visually-hidden">Arbeitsliste durchsuchen</span>
+                <input id="worklist-search" type="search" autocomplete="off" placeholder="SAP-, Lieferantenbeleg oder Partner">
+              </label>
+              <label class="select-field" for="direction-filter"><span class="visually-hidden">Richtung filtern</span>
+                <select id="direction-filter"><option value="all">Alle Richtungen</option><option value="incoming">Eingang</option><option value="outgoing">Ausgang</option></select>
+              </label>
+              <label class="select-field" for="date-filter"><span class="visually-hidden">Zeitraum filtern</span>
+                <select id="date-filter"><option value="31">Letzte 31 Tage</option><option value="90" selected>Letzte 90 Tage</option><option value="all">Alle Belege</option></select>
+              </label>
+            </div>
+          </header>
+          <div class="active-filter" id="active-filter" hidden>
+            <span id="active-filter-label"></span><button type="button" id="clear-filter">Filter entfernen</button>
+          </div>
+          <div class="table-wrap" id="worklist-table-wrap">
+            <table class="worklist-table">
+              <colgroup>
+                <col class="document-column">
+                <col class="supplier-invoice-column">
+                <col class="partner-column">
+                <col class="document-date-column">
+                <col class="entry-date-column">
+                <col class="amount-column">
+                <col class="status-column">
+                <col class="action-column">
+              </colgroup>
+              <thead><tr>
+                <th scope="col" data-sort-column="docNum"><button class="sort-button" type="button" data-sort="docNum">SAP-Beleg <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
+                <th scope="col" data-sort-column="invoiceNumber"><button class="sort-button" type="button" data-sort="invoiceNumber">Lieferantenbeleg <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
+                <th scope="col" data-sort-column="businessPartner"><button class="sort-button" type="button" data-sort="businessPartner">Geschäftspartner <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
+                <th scope="col" data-sort-column="documentDate"><button class="sort-button" type="button" data-sort="documentDate">Belegdatum <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
+                <th scope="col" data-sort-column="entryDate"><button class="sort-button" type="button" data-sort="entryDate">Anlagedatum <span class="sort-indicator" aria-hidden="true">↓</span></button></th>
+                <th scope="col" data-sort-column="grossAmount"><button class="sort-button" type="button" data-sort="grossAmount">Betrag <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
+                <th scope="col" data-sort-column="status"><button class="sort-button" type="button" data-sort="status">Status <span class="sort-indicator" aria-hidden="true">↕</span></button></th>
+                <th scope="col"><span class="visually-hidden">Aktion</span></th>
+              </tr></thead>
+              <tbody id="worklist-body"></tbody>
+            </table>
+          </div>
+          <div class="loading-state" id="worklist-loading"><span class="spinner" aria-hidden="true"></span><span>Arbeitsliste wird gelesen …</span></div>
+          <div class="empty-state" id="worklist-empty" hidden>
+            <span class="empty-icon" aria-hidden="true">✓</span>
+            <strong>Alles erledigt</strong>
+            <p>Für den aktuellen Filter wartet kein Beleg auf Ihre Aktion.</p>
+            <button class="button button-outline button-small" id="show-all-button" type="button">Alle Belege anzeigen</button>
+          </div>
+          <footer class="table-footer"><span id="row-count">0 Belege</span><button class="text-button" id="load-more" type="button" hidden>Weitere laden</button></footer>
+        </section>
+      </section>
+    </main>
+
+    <footer class="app-footer"><span>NovaNein · geschützter Arbeitsplatz</span><span><span class="footer-dot" aria-hidden="true"></span><span id="footer-status">Status wird geprüft</span></span></footer>
+  </div>
+
+  <dialog class="dialog upload-dialog" id="upload-dialog" aria-labelledby="upload-title">
+    <section class="dialog-card upload-dialog-card upload-panel">
+      <button class="dialog-close icon-button" id="upload-dialog-close" type="button" aria-label="Upload-Fenster schließen">×</button>
+      <div class="upload-heading">
+        <div><p class="section-kicker">Dokument hinzufügen</p><h2 id="upload-title">PDF hochladen</h2></div>
+        <span class="upload-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 13.5V19a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-5.5"/></svg></span>
+      </div>
+      <p class="upload-intro" id="upload-dialog-intro">Ziehen Sie die PDF in das Feld oder klicken Sie auf „PDF durchsuchen“.</p>
+      <label class="dropzone" id="dropzone" for="pdf-input" tabindex="0">
+        <input id="pdf-input" type="file" accept="application/pdf,.pdf" hidden>
+        <span class="dropzone-symbol" aria-hidden="true">＋</span>
+        <strong>PDF durchsuchen</strong>
+        <span>oder PDF hier hineinziehen</span>
+        <small>Eine PDF, maximal 20 MB</small>
+      </label>
+      <div class="selected-file" id="selected-file" hidden>
+        <span class="file-symbol" aria-hidden="true">PDF</span><span class="selected-file-name" id="selected-file-name"></span><button class="icon-button icon-button-small" id="clear-file" type="button" aria-label="Ausgewählte PDF entfernen">×</button>
+      </div>
+      <div class="upload-target" id="upload-target" hidden>
+        <label for="upload-target-select">Zu welchem SAP-Beleg gehört die PDF?</label>
+        <select id="upload-target-select"><option value="">Beleg auswählen …</option></select>
+      </div>
+      <button class="button button-primary full-width" id="upload-button" type="button" disabled>PDF prüfen und verknüpfen</button>
+      <button class="text-button inbox-upload-button" id="upload-inbox-button" type="button" disabled>PDF zunächst ohne Zuordnung ablegen</button>
+      <div class="upload-feedback" id="upload-feedback" role="status" hidden></div>
+    </section>
+  </dialog>
+
+  <dialog class="dialog processing-dialog" id="processing-dialog" aria-labelledby="processing-title">
+    <section class="dialog-card processing-dialog-card" aria-live="polite">
+      <p class="section-kicker">Automatische Belegprüfung</p>
+      <h2 id="processing-title">Beleg wird geprüft</h2>
+      <div class="processing-scene" id="processing-scene" aria-hidden="true">
+        <div class="processing-orbit"><span></span><span></span><span></span></div>
+        <div class="processing-paper"><span></span><span></span><span></span><i></i></div>
+        <div class="processing-scan-line"></div>
+        <div class="processing-check">✓</div>
+      </div>
+      <strong class="processing-document" id="processing-document">SAP-Beleg wird vorbereitet</strong>
+      <p class="processing-status" id="processing-status" role="status">PDF wird gelesen und sicher übernommen …</p>
+      <ol class="processing-steps" aria-label="Prüffortschritt">
+        <li class="complete" id="processing-step-upload"><span>1</span><div><strong>PDF übernommen</strong><small>Datei sicher im Prüfbereich gespeichert</small></div></li>
+        <li class="complete" id="processing-step-link"><span>2</span><div><strong>Mit SAP verknüpft</strong><small>Belegnummer und Richtung bestätigt</small></div></li>
+        <li class="active" id="processing-step-validation"><span>3</span><div><strong>Inhalt wird geprüft</strong><small>Rechnungsdaten werden mit SAP abgeglichen</small></div></li>
+      </ol>
+      <p class="processing-note">Das Überprüfungsprotokoll öffnet sich automatisch, sobald die Prüfung abgeschlossen ist.</p>
+    </section>
+  </dialog>
+
+  <dialog class="dialog" id="review-dialog" aria-labelledby="review-dialog-title">
+    <form method="dialog" class="dialog-card" id="review-form">
+      <button class="dialog-close icon-button" value="cancel" type="submit" aria-label="Fenster schließen">×</button>
+      <p class="section-kicker">Beleg prüfen</p>
+      <h2 id="review-dialog-title">Prüfdetails</h2>
+      <div id="review-summary" class="review-summary"></div>
+      <div id="pdf-preview" class="pdf-preview" hidden><iframe id="pdf-preview-frame" title="PDF-Vorschau – innerhalb der PDF kann gescrollt werden" loading="lazy" tabindex="0"></iframe></div>
+      <label class="assign-target" id="assign-target-wrap" for="review-target-select" hidden><span>Passenden SAP-Beleg wählen</span><select id="review-target-select"><option value="">Beleg auswählen …</option></select></label>
+      <div class="review-reasons" id="review-reasons"></div>
+      <label class="reason-field" for="review-reason"><span>Notiz für die Entscheidung <em>erforderlich</em></span><textarea id="review-reason" rows="3" placeholder="Kurz erklären, warum Sie freigeben oder ablehnen …"></textarea></label>
+      <div class="dialog-actions"><button class="button button-outline" id="replace-pdf-button" type="button" hidden>Andere PDF hochladen</button><button class="button button-outline" value="cancel" type="submit">Abbrechen</button><button class="button button-danger" id="reject-button" value="reject" type="submit">Ablehnen</button><button class="button button-primary" id="approve-button" value="approve" type="submit">Freigeben</button></div>
+      <div class="dialog-feedback" id="review-feedback" role="alert" hidden></div>
+    </form>
+  </dialog>
+
+  <dialog class="document-detail-dialog" id="document-detail-dialog" aria-labelledby="document-detail-title">
+    <form method="dialog" class="document-detail-card">
+      <header class="document-detail-header">
+        <div>
+          <p class="section-kicker">Belegdetails</p>
+          <h2 id="document-detail-title">Beleg wird geladen …</h2>
+          <p id="document-detail-subtitle">SAP-Daten, Kommentare und Verlauf</p>
+        </div>
+        <button class="dialog-close icon-button" value="close" type="submit" aria-label="Fenster schließen">×</button>
+      </header>
+      <div class="document-detail-facts" id="document-detail-facts"></div>
+      <div class="document-detail-layout">
+        <section class="document-preview-panel" aria-labelledby="document-preview-title">
+          <div class="document-detail-section-heading">
+            <div><span>Dokument</span><h3 id="document-preview-title">Belegvorschau</h3></div>
+          </div>
+          <div class="document-detail-preview" id="document-detail-preview">
+            <iframe id="document-detail-preview-frame" title="Belegvorschau – innerhalb der PDF kann gescrollt werden" loading="lazy" tabindex="0"></iframe>
+            <div class="document-preview-empty" id="document-preview-empty" hidden>
+              <span aria-hidden="true">PDF</span>
+              <strong>Keine Vorschau verfügbar</strong>
+              <p id="document-preview-empty-copy">Für diesen Beleg ist noch keine PDF in NovaNein hinterlegt.</p>
+            </div>
+          </div>
+        </section>
+        <aside class="document-context-panel">
+          <section class="document-detail-section comments-section" aria-labelledby="document-comments-title">
+            <div class="document-detail-section-heading">
+              <div><span>Hinweise</span><h3 id="document-comments-title">Kommentare</h3></div>
+              <small id="document-comments-count">0</small>
+            </div>
+            <div class="document-comments" id="document-comments" aria-live="polite"><div class="detail-loading">Kommentare werden geladen …</div></div>
+          </section>
+          <section class="document-detail-section timeline-section" aria-labelledby="document-timeline-title">
+            <div class="document-detail-section-heading">
+              <div><span>Verlauf</span><h3 id="document-timeline-title">Timeline</h3></div>
+              <small id="document-timeline-count">0</small>
+            </div>
+            <ol class="document-timeline" id="document-timeline" aria-live="polite"><li class="detail-loading">Verlauf wird geladen …</li></ol>
+          </section>
+        </aside>
+      </div>
+      <footer class="document-detail-footer"><span>Zeilenaktionen bleiben über die Buttons in der Arbeitsliste erreichbar.</span><button class="button button-primary" value="close" type="submit">Schließen</button></footer>
+    </form>
+  </dialog>
+
+  <dialog class="dialog" id="transfer-dialog" aria-labelledby="transfer-dialog-title">
+    <form method="dialog" class="dialog-card" id="transfer-form">
+      <button class="dialog-close icon-button" value="cancel" type="submit" aria-label="Fenster schließen">×</button>
+      <p class="section-kicker">DATEV-Übergabe</p>
+      <h2 id="transfer-dialog-title">Übertragung bestätigen</h2>
+      <p class="dialog-copy">Das geprüfte Paket wird erst nach Ihrer Bestätigung an den geschützten DATEV-Transfer übergeben.</p>
+      <div class="transfer-check" id="transfer-check"></div>
+      <label class="confirm-check"><input type="checkbox" id="transfer-confirm"><span>Ich habe Beleg und Prüfstatus geprüft.</span></label>
+      <div class="dialog-actions"><button class="button button-outline" value="cancel" type="submit">Abbrechen</button><button class="button button-primary" id="transfer-submit" value="transfer" type="submit" disabled>Übertragung anstoßen</button></div>
+      <div class="dialog-feedback" id="transfer-feedback" role="alert" hidden></div>
+    </form>
+  </dialog>
+
+  <dialog class="dialog admin-ignore-dialog" id="admin-ignore-dialog" aria-labelledby="admin-ignore-title">
+    <form method="dialog" class="dialog-card admin-ignore-card" id="admin-ignore-form" novalidate>
+      <button class="dialog-close icon-button" value="cancel" type="submit" aria-label="Fenster schließen">×</button>
+      <p class="section-kicker">Admin-Freigabe</p>
+      <h2 id="admin-ignore-title">Zeile ignorieren</h2>
+      <p class="dialog-copy" id="admin-ignore-copy">Der Beleg bleibt sichtbar, wird aber nicht mehr als offen gezählt.</p>
+      <div class="admin-ignore-target" id="admin-ignore-target"></div>
+      <label class="login-field" for="admin-ignore-user"><span>Admin-Benutzername</span><input id="admin-ignore-user" name="adminUserName" type="text" autocomplete="username" required></label>
+      <label class="login-field" for="admin-ignore-password"><span>Admin-Kennwort</span><input id="admin-ignore-password" name="adminPassword" type="password" autocomplete="current-password" required></label>
+      <label class="reason-field" for="admin-ignore-reason"><span>Begründung <em>erforderlich</em></span><textarea id="admin-ignore-reason" rows="3" maxlength="500" placeholder="Zum Beispiel: Beleg wurde in SAP storniert"></textarea></label>
+      <div class="dialog-actions"><button class="button button-outline" value="cancel" type="submit">Abbrechen</button><button class="button button-danger" id="admin-ignore-submit" value="confirm" type="submit">Zeile ignorieren</button></div>
+      <div class="dialog-feedback" id="admin-ignore-feedback" role="alert" hidden></div>
+    </form>
+  </dialog>
+
+  <div class="toast-region" id="toast-region" aria-live="polite" aria-atomic="true"></div>
+  <script src="/vendor/signalr.min.js" defer></script>
+  <script src="/navigation.js?v=20260716-users1" defer></script>
+  <script src="/app.js?v=20260716-booking-cockpit-link1" defer></script>
+</body>
+</html>

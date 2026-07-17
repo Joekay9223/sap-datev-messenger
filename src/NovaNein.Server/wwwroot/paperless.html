@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>NovaNein · Paperless-Dokumente</title>
+  <link rel="stylesheet" href="/styles.css?v=20260716-users1"><link rel="stylesheet" href="/accounting.css?v=20260716-navbuttons3">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar"><div class="brand"><span class="brand-mark"><span></span><span></span><span></span></span><span class="brand-name">NovaNein</span><span class="brand-divider"></span><span class="brand-section">Paperless-Dokumente</span></div><nav class="topbar-nav" aria-label="Hauptnavigation"><a class="nav-button" href="/index.html"><span>Beleg-Cockpit</span><span class="nav-count" data-nav-count="work-items" aria-label="Offene Belege">–</span></a><a class="nav-button" href="/booking.html"><span>Buchungsvorschläge</span><span class="nav-count" data-nav-count="invoice-proposals" aria-label="Offene Buchungsvorschläge">–</span></a><a class="nav-button" href="/statistics.html">Statistiken</a><a class="nav-button" href="/history.html">Historie</a><a class="nav-button" href="/paperless.html" aria-current="page">Paperless</a></nav><div class="topbar-actions"><button class="text-button" id="logout">Abmelden</button></div></header>
+    <main>
+      <section class="intro-row"><div class="intro-copy"><p class="eyebrow"><span class="eyebrow-rule"></span>Read-only-Dokumenteingang</p><h1>Paperless im Blick.</h1><p class="intro-text">Dokumente aus Paperless werden nur angezeigt und als Zuordnungsvorschlag verwendet. Der Buchungsinhalt bleibt SAP.</p></div><div class="next-action"><div class="next-action-kicker">Sicherheitsregel</div><strong>Keine automatische Zuordnung</strong><span>Rechnungsnummer, Partner, Datum, Betrag und Währung werden gemeinsam geprüft.</span></div></section>
+      <section class="worklist-panel"><header class="section-header"><div><p class="section-kicker">PAPERLESS</p><h2>Dokumente</h2></div><div class="section-tools"><label class="search-field"><span class="visually-hidden">Paperless durchsuchen</span><input id="query" type="search" placeholder="Rechnungsnummer oder Partner"></label><button class="button button-outline button-small" id="reload">Aktualisieren</button></div></header><div id="feedback" class="upload-feedback" hidden></div><div class="table-wrap"><table><thead><tr><th>ID</th><th>Titel</th><th>Empfänger</th><th>Belegdatum</th><th>Aktion</th></tr></thead><tbody id="documents"></tbody></table></div><div class="mini-empty" id="empty" hidden>Keine Paperless-Dokumente gefunden.</div></section>
+    </main>
+    <footer class="app-footer"><span>NovaNein · Paperless read-only</span><span id="state">Stand wird geladen</span></footer>
+  </div>
+  <script src="/navigation.js?v=20260716-users1" defer></script>
+  <script src="/paperless.js?v=20260716-navbuttons3" defer></script>
+</body>
+</html>

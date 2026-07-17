@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102b36">
+  <title>Anmeldung · NovaNein</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="login-page">
+  <main class="login-layout">
+    <section class="login-visual" aria-label="NovaNein">
+      <div class="brand login-brand"><span class="brand-mark" aria-hidden="true"><span></span><span></span><span></span></span><span class="brand-name">NovaNein</span></div>
+      <div class="login-visual-copy"><p class="eyebrow"><span class="eyebrow-rule"></span>Beleg-Cockpit</p><h1>Vom PDF zur klaren nächsten Aktion.</h1><p>Ein geschützter Arbeitsplatz für SAP-Belege, Prüfung und DATEV-Übergabe.</p></div>
+      <div class="login-visual-footer"><span class="footer-dot" data-state="ok" aria-hidden="true"></span>Geschützter Serverzugang</div>
+    </section>
+    <section class="login-panel" aria-labelledby="login-title">
+      <div class="login-panel-inner">
+        <p class="section-kicker">Willkommen zurück</p>
+        <h2 id="login-title">Anmelden</h2>
+        <p class="login-copy">Melden Sie sich an, um Ihre Beleg-Arbeitsliste zu öffnen.</p>
+        <form id="login-form" novalidate>
+          <label class="login-field" for="login-user"><span>Benutzername</span><input id="login-user" name="userName" type="text" autocomplete="username" required autofocus></label>
+          <label class="login-field" for="login-password"><span>Kennwort</span><input id="login-password" name="password" type="password" autocomplete="current-password" required></label>
+          <button class="button button-primary full-width" id="login-submit" type="submit">Sicher anmelden <span aria-hidden="true">→</span></button>
+          <div class="login-feedback" id="login-feedback" role="alert" hidden></div>
+        </form>
+        <p class="login-security"><span class="info-mark" aria-hidden="true">✓</span><span>Die Sitzung ist verschlüsselt. Auf registrierten Arbeitsplätzen wird zusätzlich das mTLS-Zertifikat geprüft.</span></p>
+      </div>
+    </section>
+  </main>
+  <script src="/login.js" defer></script>
+</body>
+</html>

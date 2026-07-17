@@ -1,0 +1,38 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="coverlet.collector" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0" />
+    <PackageReference Include="System.Net.Http" Version="4.3.4" />
+    <PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+    <PackageReference Include="xunit" Version="2.5.3" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\NovaNein.Domain\NovaNein.Domain.csproj" />
+    <ProjectReference Include="..\..\src\NovaNein.Datev\NovaNein.Datev.csproj" />
+    <ProjectReference Include="..\..\src\NovaNein.Server\NovaNein.Server.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\..\src\NovaNein.SapAddon\NovaNeinDocumentContract.cs" Link="SapAddon\NovaNeinDocumentContract.cs" />
+    <Compile Include="..\..\src\NovaNein.SapAddon\NovaNeinClientResponses.cs" Link="SapAddon\NovaNeinClientResponses.cs" />
+    <Compile Include="..\..\src\NovaNein.SapAddon\NovaNeinServerClient.cs" Link="SapAddon\NovaNeinServerClient.cs" />
+  </ItemGroup>
+
+</Project>

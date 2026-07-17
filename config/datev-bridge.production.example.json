@@ -1,0 +1,14 @@
+{
+  "root": "C:\\ProgramData\\NovaNein\\Server\\datev-bridge",
+  "shareRoot": "\\\\DATEV-DATEISERVER\\Datacenter\\Datev Belegtransfer\\IHRE-MANDANTENNUMMER",
+  "credentialTarget": "NovaNein/DatevTransfer",
+  "incomingFolder": "Rechnungseingang",
+  "outgoingFolder": "Rechnungsausgang",
+  "shareStagingFolder": ".novanein-staging",
+  "xsdPaths": [
+    "C:\\ProgramData\\NovaNein\\Server\\datev-xsds\\Document_v060.xsd",
+    "C:\\ProgramData\\NovaNein\\Server\\datev-xsds\\Document_types_v060.xsd",
+    "C:\\ProgramData\\NovaNein\\Server\\datev-xsds\\Belegverwaltung_online_invoice_v060.xsd",
+    "C:\\ProgramData\\NovaNein\\Server\\datev-xsds\\Belegverwaltung_online_types_v060.xsd"
+  ]
+}

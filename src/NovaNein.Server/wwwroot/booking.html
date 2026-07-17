@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="csrf-token" content="">
+  <title>NovaNein · Buchungsvorschläge</title>
+  <link rel="icon" href="/favicon.svg?v=20260716-navbuttons3" type="image/svg+xml">
+  <link rel="stylesheet" href="/styles.css?v=20260716-users1">
+  <link rel="stylesheet" href="/booking.css?v=20260716-posting-wait1">
+  <link rel="stylesheet" href="/booking-direction.css?v=20260717-direction1">
+</head>
+<body>
+<div class="app-shell">
+  <header class="topbar">
+    <div class="brand"><span class="brand-mark"><span></span><span></span><span></span></span><span class="brand-name">NovaNein</span><span class="brand-divider"></span><span class="brand-section">Buchungsvorschläge</span></div>
+    <nav class="topbar-nav" aria-label="Hauptnavigation">
+      <a class="nav-button" href="/index.html"><span>Beleg-Cockpit</span><span class="nav-count" data-nav-count="work-items" aria-label="Offene Belege">–</span></a>
+      <a class="nav-button" href="/booking.html" aria-current="page"><span>Buchungsvorschläge</span><span class="nav-count" data-nav-count="invoice-proposals" aria-label="Offene Buchungsvorschläge">–</span></a>
+      <a class="nav-button" href="/statistics.html">Statistiken</a>
+      <a class="nav-button" href="/history.html">Historie</a>
+      <a class="nav-button" href="/paperless.html">Paperless</a>
+    </nav>
+    <div class="topbar-actions"><button class="text-button" id="sync-gmail" hidden>Gmail synchronisieren</button><button class="text-button" id="logout">Abmelden</button></div>
+  </header>
+  <main>
+    <section class="intro-row">
+      <div class="intro-copy"><p class="eyebrow"><span class="eyebrow-rule"></span>Gmail → SAP → DATEV</p><h1>Prüfen. Freigeben. Nachweisen.</h1><p class="intro-text">Alle geeigneten Kostenrechnungen aus invoices@example.invalid erscheinen hier vor der SAP-Buchung.</p></div>
+      <div class="next-action"><div class="next-action-kicker">Gmail-Status</div><strong id="gmail-state">Status wird geladen</strong><span id="gmail-detail">Noch kein Synchronisationsstand.</span></div>
+    </section>
+    <section class="metric-strip booking-metrics" aria-label="Bearbeitungsansicht">
+      <button class="metric" type="button" data-view="open" data-active="true" aria-pressed="true"><span class="metric-label">Offene Aufgaben</span><strong id="metric-open">–</strong><span class="metric-hint">Neu eingegangen oder noch zu bearbeiten</span></button>
+      <button class="metric" type="button" data-view="completed" data-active="false" aria-pressed="false"><span class="metric-label">Erledigt</span><strong id="metric-completed">–</strong><span class="metric-hint">Gebucht, übertragen oder bewusst abgelehnt</span></button>
+      <button class="metric" type="button" data-view="all" data-active="false" aria-pressed="false"><span class="metric-label">Alle Rechnungen</span><strong id="metric-all">–</strong><span class="metric-hint">Offene und abgeschlossene Vorgänge zusammen</span></button>
+    </section>
+    <section class="booking-direction-filter" aria-label="Rechnungsart">
+      <div><p class="section-kicker">Rechnungsart</p><strong id="direction-summary">Alle Rechnungen</strong></div>
+      <div class="booking-direction-tabs" role="group" aria-label="Eingangs- und Ausgangsrechnungen filtern">
+        <button type="button" data-direction="all" aria-pressed="true">Alle <span id="direction-all-count">–</span></button>
+        <button type="button" data-direction="incoming" aria-pressed="false">Eingangsrechnungen <span id="direction-incoming-count">–</span></button>
+        <button type="button" data-direction="outgoing" aria-pressed="false">Ausgangsrechnungen <span id="direction-outgoing-count">–</span></button>
+      </div>
+    </section>
+    <div id="notice" class="booking-notice" hidden></div>
+    <section class="booking-layout">
+      <section class="worklist-panel proposal-list-panel">
+        <header class="section-header"><div><p class="section-kicker" id="proposal-view-kicker">Offene Aufgaben</p><h2>Buchungsvorschläge</h2><p class="proposal-list-intro" id="proposal-view-description">Diese Rechnungen sind neu eingegangen oder benötigen noch eine Prüfung, Freigabe oder Klärung.</p></div><label class="select-field"><span class="visually-hidden">Status</span><select id="status-filter"><option value="">Alle Status</option><option value="MailReceived">Neu eingegangen</option><option value="Extracted">Wird ausgelesen</option><option value="ProposalReady">Freigabe nötig</option><option value="NeedsReview">Prüfung nötig</option><option value="Blocked">Gesperrt</option><option value="Approved">Freigegeben</option><option value="SapPosting">SAP-Buchung</option><option value="SapReadbackConfirmed">SAP bestätigt</option><option value="DatevPrepared">DATEV vorbereitet</option><option value="DatevFinalized">DATEV abgeschlossen</option><option value="Rejected">Abgelehnt</option><option value="Failed">Fehler</option></select></label></header>
+        <div class="table-wrap proposal-list-wrap"><table class="proposal-list-table"><colgroup><col class="proposal-signal-column"><col class="proposal-supplier-column"><col class="proposal-invoice-column"><col class="proposal-date-column"><col class="proposal-amount-column"><col class="proposal-status-column"><col class="proposal-open-column"></colgroup><thead><tr><th>Status</th><th>Lieferant / Kunde</th><th>Rechnung</th><th>Datum</th><th>Betrag</th><th>Bearbeitung</th><th><span class="visually-hidden">Öffnen</span></th></tr></thead><tbody id="proposal-body"></tbody></table></div>
+        <div class="mini-empty proposal-empty" id="proposal-empty" hidden>Keine offenen Buchungsvorschläge. Alles ist abgearbeitet.</div>
+      </section>
+      <aside class="supplier-panel" id="supplier-panel" hidden>
+        <p class="section-kicker">Stammdaten</p><h2>Neue Lieferanten</h2><p>Stammdatenanlage und Rechnungsbuchung bleiben getrennte Freigaben.</p><div id="supplier-list"></div>
+      </aside>
+    </section>
+  </main>
+  <footer class="app-footer"><span>NovaNein · automatische Buchung</span><span id="live-state">Stand wird geladen</span></footer>
+</div>
+
+<dialog id="proposal-dialog" class="proposal-dialog">
+  <section class="proposal-card">
+    <header><div><p class="section-kicker">Buchungsvorschlag</p><h2 id="detail-title">Vorschlag</h2><p id="detail-provenance"></p></div><button class="dialog-close icon-button" id="detail-close" aria-label="Schließen">×</button></header>
+    <div class="proposal-detail-grid">
+      <section class="proposal-preview"><iframe id="proposal-pdf" title="Originalrechnung"></iframe></section>
+      <section class="proposal-form">
+        <div id="detail-status-banner" class="detail-status-banner"></div>
+        <div id="detail-facts" class="detail-facts"></div>
+        <div id="detail-findings" class="detail-findings"></div>
+        <h3>Kontierung</h3>
+        <div class="line-editor" id="line-editor"></div>
+        <label class="reason-field" id="reason-field"><span>Begründung für die Entscheidung <em>erforderlich</em></span><textarea id="decision-reason" rows="3" placeholder="Prüfung und Entscheidung kurz begründen …"></textarea></label>
+        <div class="posting-progress" id="posting-progress" role="status" aria-live="polite" hidden><span class="posting-progress-spinner" aria-hidden="true"></span><span><strong>SAP-Buchung läuft</strong><small>Der Beleg wird angelegt und anschließend geprüft. Bitte dieses Fenster geöffnet lassen.</small></span></div>
+        <div class="dialog-actions"><button class="button button-outline" id="recalculate">Neu berechnen</button><button class="button button-danger" id="reject">Ablehnen</button><button class="button button-primary" id="approve"><span class="button-spinner" aria-hidden="true"></span><span class="button-label">Freigeben und buchen</span></button></div>
+        <div id="detail-feedback" class="dialog-feedback" hidden></div>
+      </section>
+    </div>
+  </section>
+</dialog>
+<script src="/navigation.js?v=20260716-users1" defer></script>
+<script src="/booking.js?v=20260717-direction1" defer></script>
+</body>
+</html>
