@@ -38,4 +38,6 @@ Production logs, live acceptance reports, screenshots, customer-specific fixture
 
 ## License
 
-No license has been selected yet. Until a license is added, the source is not granted for reuse beyond applicable legal rights.
+This project is licensed under the [PolyForm Noncommercial License 1.0.0](LICENSE).
+
+Private and other noncommercial use is permitted under the license. Use in a business, for commercial advantage, or for commercial application is not permitted without separate permission from the copyright holder. Third-party components remain subject to their own licenses.

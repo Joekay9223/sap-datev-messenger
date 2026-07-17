@@ -2,6 +2,7 @@
   "name": "novaline-archiv-replacement",
   "version": "0.1.0",
   "private": true,
+  "license": "SEE LICENSE IN LICENSE",
   "type": "module",
   "description": "Sicheres Grundgerüst für den Nachbau des Novaline-Archiv- und DATEV-Abgleichsprozesses.",
   "scripts": {
