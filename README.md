@@ -1,8 +1,10 @@
-# NovaNein
+# SAP-Datev Messenger
 
-NovaNein is a Windows-oriented document workflow service for reviewing invoice PDFs, reconciling them with SAP Business One, and producing validated DATEV packages.
+SAP-Datev Messenger is a Windows-oriented document workflow service for reviewing invoice PDFs, reconciling them with SAP Business One, and producing validated DATEV packages.
 
 This repository is a sanitized public code baseline. It contains no customer database, invoices, certificates, credentials, production endpoints, or operational evidence. All company, mailbox, network, and accounting values in examples are placeholders.
+
+The source and solution retain the existing NovaNein technical identifiers for compatibility; the public project name is SAP-Datev Messenger.
 
 ## Capabilities
 

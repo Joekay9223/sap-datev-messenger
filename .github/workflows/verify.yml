@@ -1,4 +1,4 @@
-name: NovaNein verification
+name: SAP-Datev Messenger verification
 
 on:
   push:

@@ -1,10 +1,10 @@
 {
-  "name": "novaline-archiv-replacement",
+  "name": "sap-datev-messenger",
   "version": "0.1.0",
   "private": true,
   "license": "SEE LICENSE IN LICENSE",
   "type": "module",
-  "description": "Sicheres Grundgerüst für den Nachbau des Novaline-Archiv- und DATEV-Abgleichsprozesses.",
+  "description": "Sicheres Grundgerüst für den Abgleich von SAP-Business-One-Belegen und DATEV-Paketen.",
   "scripts": {
     "test": "node --test"
   },
